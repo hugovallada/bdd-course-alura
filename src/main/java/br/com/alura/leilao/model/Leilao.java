@@ -3,10 +3,7 @@ package br.com.alura.leilao.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -128,6 +125,9 @@ public class Leilao {
 	}
 
 	public boolean propoe(Lance lanceAtual) {
+		if (!(lanceAtual.getValor().compareTo(BigDecimal.ZERO) > 0)) {
+			return false;
+		}
 		
 		if (this.estaSemLances() || ehUmLanceValido(lanceAtual)) {
 			adicionarLance(lanceAtual);
@@ -143,7 +143,7 @@ public class Leilao {
 
 	private boolean ehUmLanceValido(Lance lance) {
 		return valorEhMaior(lance, ultimoLanceDado()) && 
-				oUltimoUsuarioNaoEhOMesmoDo(lance) && 
+				oUltimoUsuarioNaoEhOMesmoDo(lance) &&
 				totalDeLancesDoUsuarioEhMenorIgual5(lance.getUsuario());
 	}
 
